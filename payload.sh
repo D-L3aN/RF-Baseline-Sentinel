@@ -1,13 +1,37 @@
-#!/bin/bash
 # Title: RF-Baseline Sentinel
-# Description: Passive RF environment behavioral baseline & anomaly correlation engine
+# Description: Passive RF behavioral baseline & anomaly correlation engine for the WiFi Pineapple Pager. Learns what "normal" looks like in an RF environment over time, then alerts on statistically significant deviations. Detects surveillance, rogue infrastructure, and RF anomalies without transmitting or interacting with observed devices.
 # Author: D-L3aN
 # Version: 1.0
-# Category: blue-team
+# Category: Blue-Team
 # Net Mode: NAT
-# 
-# This payload does NOT transmit. It passively observes.
-# Ethical use: detecting surveillance, rogue infrastructure, and RF anomalies in YOUR environment.
+#
+# PREREQUISITES:
+#   - WiFi Pineapple Pager (current firmware)
+#   - Recon service running (default on stock firmware)
+#   - sqlite3 (present on stock firmware)
+#   - bc for floating-point math (opkg install bc if missing)
+#
+# CONFIGURATION:
+#   LEARNING_MODE  - Set to "false" after baseline is established (default: true)
+#   Z_THRESHOLD    - Anomaly sensitivity in standard deviations (default: 3.0)
+#   MIN_SAMPLES    - Minimum samples before baseline is valid (default: 100)
+#   LEARN_INTERVAL - Seconds between samples during learning (default: 60)
+#   MONITOR_INTERVAL - Seconds between samples during monitoring (default: 120)
+#
+# LED STATES:
+#   Blue Solid   - Monitoring / collecting baseline samples
+#   Red Blink    - Anomaly detected
+#   Magenta      - Configuration error
+#
+# ETHICAL USE:
+#   This payload is PASSIVE and DEFENSIVE. It reads existing recon data,
+#   does not transmit, does not inject packets, and does not interact with
+#   any observed device. Intended for authorized security research,
+#   red team OPSEC, and personal privacy defense.
+#
+# DISCLAIMER:
+#   Provided for educational and authorized security research purposes only.
+#   User is solely responsible for compliance with all applicable laws.
 
 # === CONFIGURATION ===
 BASELINE_DIR="/root/loot/rf-baseline"

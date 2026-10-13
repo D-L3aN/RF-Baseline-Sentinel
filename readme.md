@@ -1,7 +1,7 @@
-# Author: D-L3aN
-# Version: 1.0
-# Category: blue-team
-# Net Mode: NAT
+**Author: D-L3aN
+Version: 1.0
+Category: blue-team
+Net Mode: NAT**
 
 **RF-Baseline Sentinel**
 A passive, longitudinal RF behavioral baseline and anomaly correlation engine for the WiFi Pineapple Pager.
@@ -169,46 +169,46 @@ Run the payload
 
 **Option 2: Manual Install**
 bash
-# Copy payload to the library
+Copy payload to the library
 scp library/blue-team/rf-baseline-sentinel/payload.sh root@pager:/root/payloads/library/blue-team/rf-baseline-sentinel/
 
-# SSH into the Pager
+SSH into the Pager
 ssh root@pager
 
-# Make executable
+Make executable
 chmod +x /root/payloads/library/blue-team/rf-baseline-sentinel/payload.sh
 
-# Run
+Run
 /root/payloads/library/blue-team/rf-baseline-sentinel/payload.sh
 Option 3: Running on Boot
 To have RF-Baseline Sentinel start automatically on boot, add to /etc/rc.local:
 
 bash
-# RF-Baseline Sentinel - start in background
+RF-Baseline Sentinel - start in background
 nohup /root/payloads/library/blue-team/rf-baseline-sentinel/payload.sh > /dev/null 2>&1 &
 Configuration
 Edit the top of payload.sh to customize:
 
 bash
-# Directory where baseline DB and logs are stored
+**Directory where baseline DB and logs are stored**
 BASELINE_DIR="/root/loot/rf-baseline"
 
-# Learning mode: set to "false" after baseline is established
+**Learning mode: set to "false" after baseline is established**
 LEARNING_MODE="true"
 
-# Anomaly sensitivity: how many standard deviations before alerting
-# Lower = more sensitive (more false positives)
-# Higher = less sensitive (may miss subtle anomalies)
+**Anomaly sensitivity: how many standard deviations before alerting
+Lower = more sensitive (more false positives)
+Higher = less sensitive (may miss subtle anomalies)**
 Z_THRESHOLD=3.0
 
-# Minimum samples required before baseline is considered valid
-# 100 samples at 1/minute = ~1.7 hours of learning
+**Minimum samples required before baseline is considered valid
+100 samples at 1/minute = ~1.7 hours of learning**
 MIN_SAMPLES=100
 
-# Sample interval during learning mode (seconds)
+**Sample interval during learning mode (seconds)**
 LEARN_INTERVAL=60
 
-# Sample interval during monitoring mode (seconds)
+**Sample interval during monitoring mode (seconds)**
 MONITOR_INTERVAL=120
 Recommended Configuration by Use Case
 Use Case	Z_THRESHOLD	MIN_SAMPLES	LEARNING_MODE
@@ -232,17 +232,17 @@ Continue monitoring indefinitely
 
 Check Status
 bash
-# How many samples collected?
+**How many samples collected?**
 sqlite3 /root/loot/rf-baseline/baseline.db "SELECT COUNT(*) FROM scans;"
 
-# View recent anomalies
+**View recent anomalies**
 tail -20 /root/loot/rf-baseline/anomalies.log
 
-# Export baseline for analysis
+**Export baseline for analysis**
 sqlite3 /root/loot/rf-baseline/baseline.db ".dump" > baseline-export.sql
 Reset Baseline
 bash
-# Wipe and start fresh
+**Wipe and start fresh**
 rm /root/loot/rf-baseline/baseline.db
 Export for External Analysis
 Pull the baseline DB and analyze in your tool of choice:
